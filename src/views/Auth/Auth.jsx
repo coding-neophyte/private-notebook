@@ -1,3 +1,4 @@
+// import { sign } from 'crypto';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import UserForm from '../../components/UserForm/UserForm';
@@ -12,6 +13,19 @@ export default function Auth({ isSigningUp = false }) {
 
   const handleSubmit = async (email, password) => {
     try {
+
+
+        if (isSigningUp){
+            const newUser = await signUpUser(email, password);
+            setUser(newUser)
+            history.replace('/confirm-email')
+
+        } else if (!isSigningUp){
+          const existingUser = await signInUser(email, password)
+          setUser(existingUser)
+          history.replace('/notes')
+
+        }
       // TODO: Implement sign up & sign
       // Use isSigningUp to determine whether to sign up or sign in a user
       // If signing in: set the user ({id, email}) and redirect to /notes
